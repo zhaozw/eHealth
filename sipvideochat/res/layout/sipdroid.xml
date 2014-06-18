@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#736f6e"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="5dip"
+        android:paddingRight="5dip" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="5dip" >
+
+            <com.csipsimple.zhaozw.InstantAutoCompleteTextView
+                android:id="@+id/txt_callee2"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="Phone Number"
+                android:imeOptions="actionSend"
+                android:inputType="phone"
+                android:singleLine="true"
+                android:text="" />
+
+            <TextView
+                android:id="@+id/status"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="" />
+
+            <Chronometer
+                android:id="@+id/elapsedTime"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="18sp"
+                android:visibility="invisible" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout1"
+            android:layout_width="fill_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="10dp" >
+
+            <Button
+                android:id="@+id/dialButton"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="10dp"
+                android:text="Dial" >
+            </Button>
+
+            <!-- <ImageButton -->
+            <!-- android:id="@+id/styleHistoryButton" -->
+            <!-- android:layout_width="80dp" -->
+            <!-- android:layout_height="120dp" -->
+            <!-- android:layout_alignParentTop="true" -->
+            <!-- android:layout_centerHorizontal="true" -->
+            <!-- android:layout_alignLeft="@id/styleHistoryButton" -->
+            <!-- android:background="@drawable/stylehistorybutton" > -->
+            <!-- </ImageButton> -->
+
+            <Button
+                android:id="@+id/speakerphoneButton"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginRight="10dp"
+                android:text="Speakerphone" >
+            </Button>
+
+            <!-- <Button -->
+            <!-- android:id="@+id/buyStyles" -->
+            <!-- android:layout_width="70dp" -->
+            <!-- android:layout_height="120dp" -->
+            <!-- android:layout_alignParentTop="true" -->
+            <!-- android:layout_toLeftOf="@id/helpInfoButton" android:background="@drawable/packagesbutton" android:visibility="gone"> -->
+            <!-- </Button> -->
+
+            <Button
+                android:id="@+id/hangupButton"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:text="Hang up" >
+            </Button>
+        </RelativeLayout>
+           
+<!--         <LinearLayout -->
+<!--             android:layout_width="fill_parent" -->
+<!--             android:layout_height="wrap_content" -->
+<!--             android:orientation="horizontal" -->
+<!--             android:padding="5dip" > -->
+
+            <Spinner
+                android:id="@+id/supplier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+            </Spinner>
+
+            <Button
+                android:id="@+id/playButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Play MP3" >
+            </Button>
+<!--         </LinearLayout> -->
+            <Button
+                android:id="@+id/recordButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Record" >
+            </Button>
+            <Button
+                android:id="@+id/sendDTMFButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Send DTMF" >
+            </Button>
+            <Button
+                android:id="@+id/answerButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Answer" >
+            </Button>
+    </LinearLayout>
+
+</LinearLayout>
