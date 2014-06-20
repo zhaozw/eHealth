@@ -32,16 +32,62 @@
         android:layout_height="match_parent"
         android:layout="@layout/in_call_drop_zones" />
 
-    <LinearLayout
+    <RelativeLayout
+    android:id="@+id/mainContent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal" >
+<!-- com.csipsimple.ui.incall.CustomLinearLayout -->
+        <LinearLayout
+                android:id="@+id/imageLayout"
+            android:layout_width="300dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentTop="true"
+                android:layout_weight="1"
+            android:layout_alignParentRight="true"
+            android:orientation="vertical" >
 
+            <ListView
+                android:id="@+id/imageList"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginBottom="@dimen/right_panel_margin_vertical"
+                android:layout_marginLeft="@dimen/right_panel_margin_left"
+                android:layout_marginTop="@dimen/right_panel_margin_vertical"
+                android:layout_weight="1"
+                android:fadingEdge="none"
+                android:fadingEdgeLength="@dimen/right_panel_fading_edge"
+                android:scrollbarStyle="outsideOverlay" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+                <Button
+                    android:id="@+id/openFile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Share file" />
+
+                <Button
+                    android:id="@+id/scheduleCalendar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Schedule" />
+            </LinearLayout>
+        </LinearLayout>
         <LinearLayout
             android:id="@+id/inCallContainer"
-            android:layout_width="0dip"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="2"
+            android:layout_toLeftOf="@+id/imageLayout"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentTop="true"
             android:orientation="vertical" >
 
             <LinearLayout
@@ -110,13 +156,7 @@
                 android:background="@drawable/incall_bottom_bar_bg" />
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/doc_stub"
-            android:layout_width="0dip"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/receipt" />
-    </LinearLayout>
+    </RelativeLayout>
 
     <com.csipsimple.ui.incall.locker.ScreenLocker
         android:id="@+id/lockerOverlay"
@@ -135,11 +175,11 @@
         -->
     </com.csipsimple.ui.incall.locker.ScreenLocker>
 
-
-        <ImageView
-            android:id="@+id/doc_stub_fullscreen"
+    <ImageView
+        android:id="@+id/doc_stub_fullscreen"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
-            android:background="@drawable/receipt" />
+        android:background="@drawable/receipt"
+        android:visibility="gone" />
+
 </RelativeLayout>

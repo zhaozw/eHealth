@@ -1,6 +1,6 @@
 /*
  * This file is auto-generated.  DO NOT MODIFY.
- * Original file: /home/zhaozw/git/eHealthzhao/sipvideochat/src/com/csipsimple/api/ISipService.aidl
+ * Original file: E:\\freelancer\\git\\eHealth\\sipvideochat\\src\\com\\csipsimple\\api\\ISipService.aidl
  */
 package com.csipsimple.api;
 public interface ISipService extends android.os.IInterface

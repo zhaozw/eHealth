@@ -267,6 +267,12 @@
             android:configChanges="orientation"
             android:label="@string/filters"
             android:theme="@style/DarkTheme" />
+        <activity
+            android:name="com.csipsimple.ui.incall.ImageListStubActivity"
+            android:configChanges="orientation"
+            android:label="@string/filters"
+            android:launchMode="singleTop"
+            android:theme="@style/DarkTheme" />
         <!-- Main ui -->
         <activity
             android:name="com.csipsimple.ui.calllog.CallLogDetailsActivity"

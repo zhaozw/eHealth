@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	Copyright (C) 2010 Regis Montoya (aka r3gis - www.r3gis.fr) 
+
+	This file is part of CSipSimple.
+    CSipSimple is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+	If you own a pjsip commercial license you can also redistribute it
+	and/or modify it under the terms of the GNU Lesser General Public License
+	as an android library.
+
+    CSipSimple is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with CSipSimple.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainFrame"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <ListView
+            android:id="@+id/imageList"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/right_panel_margin_vertical"
+            android:layout_marginLeft="@dimen/right_panel_margin_left"
+            android:layout_marginTop="@dimen/right_panel_margin_vertical"
+            android:layout_weight="1"
+            android:fadingEdge="none"
+            android:fadingEdgeLength="@dimen/right_panel_fading_edge"
+            android:scrollbarStyle="outsideOverlay" />
+
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/openFile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Share file" />
+
+            <Button
+                android:id="@+id/scheduleCalendar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Schedule" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/doc_stub_fullscreen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/receipt"
+        android:visibility="gone" />
+
+</RelativeLayout>
