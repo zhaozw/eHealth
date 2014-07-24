@@ -24,6 +24,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mainFrame"
     android:layout_width="match_parent"
+    android:background="#ffffff"
     android:layout_height="match_parent" >
 
     <LinearLayout
@@ -35,14 +36,11 @@
             android:id="@+id/imageList"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginBottom="@dimen/right_panel_margin_vertical"
-            android:layout_marginLeft="@dimen/right_panel_margin_left"
-            android:layout_marginTop="@dimen/right_panel_margin_vertical"
             android:layout_weight="1"
             android:fadingEdge="none"
             android:fadingEdgeLength="@dimen/right_panel_fading_edge"
+            android:listSelector="@android:color/transparent"
             android:scrollbarStyle="outsideOverlay" />
-
 
         <LinearLayout
             android:layout_width="fill_parent"

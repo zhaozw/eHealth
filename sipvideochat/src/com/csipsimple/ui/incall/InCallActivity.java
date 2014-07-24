@@ -60,6 +60,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -102,8 +103,8 @@ public class InCallActivity extends SherlockFragmentActivity implements
 	private MediaState lastMediaState;
 
 	private ViewGroup mainFrame;
-	private InCallControls inCallControls;
-//	private ImageView doc_stub;
+	// private InCallControls inCallControls;
+	// private ImageView doc_stub;
 	// images ListView
 	private ListView lv;
 
@@ -176,72 +177,73 @@ public class InCallActivity extends SherlockFragmentActivity implements
 
 		// Cache findViews
 		mainFrame = (ViewGroup) findViewById(R.id.mainFrame);
-		inCallControls = (InCallControls) findViewById(R.id.inCallControls);
+		// inCallControls = (InCallControls) findViewById(R.id.inCallControls);
 		inCallAnswerControls = (InCallAnswerControls) findViewById(R.id.inCallAnswerControls);
 		activeCallsGrid = (InCallInfoGrid) findViewById(R.id.activeCallsGrid);
 		heldCallsGrid = (InCallInfoGrid) findViewById(R.id.heldCallsGrid);
 
-//		doc_stub = (ImageView) findViewById(R.id.doc_stub);
-//		doc_stub.setOnClickListener(new OnClickListener() {
-//
-//			@Override
-//			public void onClick(View v) {
-//				findViewById(R.id.doc_stub_fullscreen).setVisibility(
-//						View.VISIBLE);
-//
-//				// detachVideoPreview();
-//				// if(cameraPreview != null && cameraPreview.getVisibility() ==
-//				// View.VISIBLE) {
-//				//
-//				// cameraPreview.setVisibility(View.GONE);
-//				// }
-//				// startActivity(new Intent(InCallActivity.this,
-//				// ImageStubActivity.class));
-//			}
-//		});
-//		findViewById(R.id.imageLayout).setVisibility(View.GONE);
+		// doc_stub = (ImageView) findViewById(R.id.doc_stub);
+		// doc_stub.setOnClickListener(new OnClickListener() {
+		//
+		// @Override
+		// public void onClick(View v) {
+		// findViewById(R.id.doc_stub_fullscreen).setVisibility(
+		// View.VISIBLE);
+		//
+		// // detachVideoPreview();
+		// // if(cameraPreview != null && cameraPreview.getVisibility() ==
+		// // View.VISIBLE) {
+		// //
+		// // cameraPreview.setVisibility(View.GONE);
+		// // }
+		// // startActivity(new Intent(InCallActivity.this,
+		// // ImageStubActivity.class));
+		// }
+		// });
+		// findViewById(R.id.imageLayout).setVisibility(View.GONE);
 		lv = (ListView) findViewById(R.id.imageList);
 
-		 lv.setAdapter(new MyAdapter(this,new int[5]));
-		 
+		lv.setAdapter(new MyAdapter(this, new int[5]));
 
-			Button openFile = (Button) findViewById(R.id.openFile);
-			openFile.setOnClickListener(new OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					// TODO Auto-generated method stub
-//					Map<String, Integer> images = new HashMap<String, Integer>();
-//					images.put(OpenFileDialog.sRoot, R.drawable.filedialog_root);
-//					images.put(OpenFileDialog.sParent, R.drawable.filedialog_folder_up);
-//					images.put(OpenFileDialog.sFolder, R.drawable.filedialog_folder);
-//					images.put("csv", R.drawable.filedialog_file);
-//					images.put(OpenFileDialog.sEmpty, R.drawable.filedialog_root);
-//					Dialog dialog = OpenFileDialog.createDialog(id, this,
-//							"Select csv file", new CallbackBundle() {
-//								@Override
-//								public void callback(Bundle bundle) {
-//									String filepath = bundle.getString("path");
-//								}
-//							}, ".*;", images);
-					showDialog(1);
-				}
-			});
-			
-			Button scheduleCalendar = (Button) findViewById(R.id.scheduleCalendar);
-			scheduleCalendar.setOnClickListener(new OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					openCalendar();
-				}
-			});
-			
+		Button openFile = (Button) findViewById(R.id.openFile);
+		openFile.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				// Map<String, Integer> images = new HashMap<String, Integer>();
+				// images.put(OpenFileDialog.sRoot, R.drawable.filedialog_root);
+				// images.put(OpenFileDialog.sParent,
+				// R.drawable.filedialog_folder_up);
+				// images.put(OpenFileDialog.sFolder,
+				// R.drawable.filedialog_folder);
+				// images.put("csv", R.drawable.filedialog_file);
+				// images.put(OpenFileDialog.sEmpty,
+				// R.drawable.filedialog_root);
+				// Dialog dialog = OpenFileDialog.createDialog(id, this,
+				// "Select csv file", new CallbackBundle() {
+				// @Override
+				// public void callback(Bundle bundle) {
+				// String filepath = bundle.getString("path");
+				// }
+				// }, ".*;", images);
+				showDialog(1);
+			}
+		});
+
+		Button scheduleCalendar = (Button) findViewById(R.id.scheduleCalendar);
+		scheduleCalendar.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				openCalendar();
+			}
+		});
 
 		// Bind
 		attachVideoPreview();
 
-		inCallControls.setOnTriggerListener(this);
+		// inCallControls.setOnTriggerListener(this);
 		inCallAnswerControls.setOnTriggerListener(this);
 
 		if (activeCallsAdapter == null) {
@@ -296,32 +298,56 @@ public class InCallActivity extends SherlockFragmentActivity implements
 		applyTheme();
 		proximityManager.startTracking();
 
-		inCallControls.setCallState(initialSession);
+		// inCallControls.setCallState(initialSession);
 		inCallAnswerControls.setCallState(initialSession);
+
+		initContactList();
+		initChatList();
 	}
-	
+
+	private void initChatList() {
+		// TODO Auto-generated method stub
+		String[] strs = new String[] { "Hello", "How are you?", "Fine" };
+		ListView lv = (ListView) findViewById(R.id.chat_list);
+
+		lv.setAdapter(new ArrayAdapter<String>(this,
+				android.R.layout.simple_list_item_1, strs));
+	}
+
+	private void initContactList() {
+		// TODO Auto-generated method stub
+		String[] strs = new String[] { "Dr Moe", "Dr Zbeeb", "Dr Alex" };
+		ListView lv = (ListView) findViewById(R.id.contact_list);
+
+		lv.setAdapter(new ArrayAdapter<String>(this,
+				android.R.layout.simple_list_item_1, strs));
+	}
+
 	private void openCalendar() {
 		try {
 
-//			Intent i = new Intent();
-//
-//			//Froyo or greater (mind you I just tested this on CM7 and the less than froyo one worked so it depends on the phone...)
-//			ComponentName cn = new ComponentName("com.google.android.calendar", "com.android.calendar.LaunchActivity");
-//
-//			//less than Froyo
-////			ComponentName cn = new ComponentName("com.android.calendar", "com.android.calendar.LaunchActivity");
-//
-//			i.setComponent(cn);
-//			startActivity(i);
-			
-			
-		    Intent i = new Intent(Intent.ACTION_VIEW);  
-		    // Android 2.2+  
-		    i.setData(Uri.parse("content://com.android.calendar/time"));    
-		    // Before Android 2.2+  
-		    //i.setData(Uri.parse("content://calendar/time"));    
-		      
-		    startActivity(i);  
+			// Intent i = new Intent();
+			//
+			// //Froyo or greater (mind you I just tested this on CM7 and the
+			// less than froyo one worked so it depends on the phone...)
+			// ComponentName cn = new
+			// ComponentName("com.google.android.calendar",
+			// "com.android.calendar.LaunchActivity");
+			//
+			// //less than Froyo
+			// // ComponentName cn = new ComponentName("com.android.calendar",
+			// "com.android.calendar.LaunchActivity");
+			//
+			// i.setComponent(cn);
+			// startActivity(i);
+
+			Intent i = new Intent(Intent.ACTION_VIEW);
+			// Android 2.2+
+			i.setData(Uri.parse("content://com.android.calendar/time"));
+			// Before Android 2.2+
+			// i.setData(Uri.parse("content://calendar/time"));
+
+			startActivity(i);
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
@@ -329,20 +355,20 @@ public class InCallActivity extends SherlockFragmentActivity implements
 
 	@Override
 	protected Dialog onCreateDialog(int id) {
-			Map<String, Integer> images = new HashMap<String, Integer>();
-			images.put(OpenFileDialog.sRoot, R.drawable.filedialog_root);
-			images.put(OpenFileDialog.sParent, R.drawable.filedialog_folder_up);
-			images.put(OpenFileDialog.sFolder, R.drawable.filedialog_folder);
-			images.put("csv", R.drawable.filedialog_file);
-			images.put(OpenFileDialog.sEmpty, R.drawable.filedialog_root);
-			Dialog dialog = OpenFileDialog.createDialog(id, this,
-					"Share file", new CallbackBundle() {
-						@Override
-						public void callback(Bundle bundle) {
-							String filepath = bundle.getString("path");
-						}
-					}, null, images);
-			return dialog;
+		Map<String, Integer> images = new HashMap<String, Integer>();
+		images.put(OpenFileDialog.sRoot, R.drawable.filedialog_root);
+		images.put(OpenFileDialog.sParent, R.drawable.filedialog_folder_up);
+		images.put(OpenFileDialog.sFolder, R.drawable.filedialog_folder);
+		images.put("csv", R.drawable.filedialog_file);
+		images.put(OpenFileDialog.sEmpty, R.drawable.filedialog_root);
+		Dialog dialog = OpenFileDialog.createDialog(id, this, "Share file",
+				new CallbackBundle() {
+					@Override
+					public void callback(Bundle bundle) {
+						String filepath = bundle.getString("path");
+					}
+				}, null, images);
+		return dialog;
 	}
 
 	@Override
@@ -634,13 +660,13 @@ public class InCallActivity extends SherlockFragmentActivity implements
 			// because badge avail size depends on that
 			if ((mainsCalls + heldsCalls) >= 1) {
 				// Update in call actions
-				inCallControls.setCallState(mainCallInfo);
+				// inCallControls.setCallState(mainCallInfo);
 				inCallAnswerControls.setCallState(mainCallInfo);
 			} else {
-				inCallControls.setCallState(null);
+				// inCallControls.setCallState(null);
 				inCallAnswerControls.setCallState(null);
 			}
-			
+
 			heldCallsGrid.setVisibility((heldsCalls > 0) ? View.VISIBLE
 					: View.GONE);
 
@@ -709,7 +735,7 @@ public class InCallActivity extends SherlockFragmentActivity implements
 	private class UpdateUIFromMediaRunnable implements Runnable {
 		@Override
 		public void run() {
-			inCallControls.setMediaState(lastMediaState);
+			// inCallControls.setMediaState(lastMediaState);
 			proximityManager.updateProximitySensorMode();
 		}
 	}
@@ -779,11 +805,11 @@ public class InCallActivity extends SherlockFragmentActivity implements
 		proximityManager.release(0);
 
 		activeCallsGrid.setVisibility(View.VISIBLE);
-		inCallControls.setVisibility(View.GONE);
-		
+		// inCallControls.setVisibility(View.GONE);
 
-Intent intent=new Intent(this, ImageListStubActivity.class);
-intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+		Intent intent = new Intent(this, ImageListStubActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+				| Intent.FLAG_ACTIVITY_SINGLE_TOP);
 		startActivity(intent);
 
 		Log.d(THIS_FILE, "Start quit timer");
@@ -1472,24 +1498,25 @@ intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP)
 	private void setImageListVisible(SipCallSession mainCallInfo) {
 		SipCallSession callInfo = mainCallInfo;
 		boolean active = callInfo.isBeforeConfirmed() && callInfo.isIncoming();
-		
+
 		active = !callInfo.isAfterEnded()
-		        && (!callInfo.isBeforeConfirmed() || (!callInfo.isIncoming() && callInfo
-		                .isBeforeConfirmed()));
-		
+				&& (!callInfo.isBeforeConfirmed() || (!callInfo.isIncoming() && callInfo
+						.isBeforeConfirmed()));
+
 		active = (!callInfo.isAfterEnded() && !callInfo.isBeforeConfirmed());
 		if (active) {
 			System.out.println("image list shown");
 			findViewById(R.id.imageLayout).setVisibility(View.VISIBLE);
 			findViewById(R.id.inCallContainer).setVisibility(View.GONE);
 			findViewById(R.id.inCallContainer).setVisibility(View.VISIBLE);
-//			LayoutParams lp = (LayoutParams) findViewById(R.id.mainContent).getLayoutParams();
-//			lp.
-		}else{
+			// LayoutParams lp = (LayoutParams)
+			// findViewById(R.id.mainContent).getLayoutParams();
+			// lp.
+		} else {
 			System.out.println("image list hiden");
 			findViewById(R.id.imageLayout).setVisibility(View.GONE);
 		}
-		
+
 		findViewById(R.id.mainFrame).requestLayout();
 	}
 
@@ -1613,6 +1640,7 @@ intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP)
 				// badge.setOnTouchListener(new OnBadgeTouchListener(badge,
 				// call));
 
+				vc.setMediaState(lastMediaState);
 				vc.setCallState(session);
 			}
 
@@ -1650,20 +1678,21 @@ intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP)
 		public View getView(final int position, View convertView,
 				ViewGroup parent) {
 
-//			Log.v("MyListViewBase", "getView " + position + " " + convertView);
-//			if (convertView == null) {
-				convertView = mInflater.inflate(R.layout.image, null);
-//
-//			} else {
-//			}
+			// Log.v("MyListViewBase", "getView " + position + " " +
+			// convertView);
+			// if (convertView == null) {
+			convertView = mInflater.inflate(R.layout.image, null);
+			//
+			// } else {
+			// }
 
-//			ImageView imageView = (ImageView) convertView;
+			// ImageView imageView = (ImageView) convertView;
 
 			convertView.setOnClickListener(new OnClickListener() {
 
 				@Override
 				public void onClick(View v) {
-					//display the fullscreen image
+					// display the fullscreen image
 					findViewById(R.id.doc_stub_fullscreen).setVisibility(
 							View.VISIBLE);
 				}

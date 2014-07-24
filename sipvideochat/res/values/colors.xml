@@ -28,4 +28,7 @@
     <color name="incall_textConnected">#40CEA3</color>
     
     <color name="incall_textEnded">#FF6072</color> <!-- red -->
+    
+    
+    <color name="dark_gray">#ff333333</color>
 </resources>

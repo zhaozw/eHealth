@@ -33,31 +33,32 @@
         android:layout="@layout/in_call_drop_zones" />
 
     <RelativeLayout
-    android:id="@+id/mainContent"
+        android:id="@+id/mainContent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal" >
-<!-- com.csipsimple.ui.incall.CustomLinearLayout -->
+
+        <!-- com.csipsimple.ui.incall.CustomLinearLayout -->
+
         <LinearLayout
-                android:id="@+id/imageLayout"
+            android:id="@+id/imageLayout"
             android:layout_width="300dp"
             android:layout_height="match_parent"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentTop="true"
-                android:layout_weight="1"
             android:layout_alignParentRight="true"
-            android:orientation="vertical" >
+            android:layout_alignParentTop="true"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:visibility="gone" >
 
             <ListView
                 android:id="@+id/imageList"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginBottom="@dimen/right_panel_margin_vertical"
-                android:layout_marginLeft="@dimen/right_panel_margin_left"
-                android:layout_marginTop="@dimen/right_panel_margin_vertical"
                 android:layout_weight="1"
                 android:fadingEdge="none"
                 android:fadingEdgeLength="@dimen/right_panel_fading_edge"
+                android:listSelector="@android:color/transparent"
                 android:scrollbarStyle="outsideOverlay" />
 
             <LinearLayout
@@ -79,15 +80,16 @@
                     android:text="Schedule" />
             </LinearLayout>
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/inCallContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:layout_toLeftOf="@+id/imageLayout"
-            android:layout_alignParentLeft="true"
             android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/imageLayout"
+            android:layout_weight="2"
             android:orientation="vertical" >
 
             <LinearLayout
@@ -147,15 +149,77 @@
                 android:layout_weight="2"
                 android:visibility="gone" />
 
-            <!-- Wraps split action bar manually managed -->
+            <!-- chat control -->
 
-            <com.csipsimple.ui.incall.InCallControls
-                android:id="@+id/inCallControls"
+            <LinearLayout
+                android:id="@+id/chatLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/incall_bottom_bar_bg" />
-        </LinearLayout>
+                android:layout_height="200dp"
+                android:orientation="horizontal" >
 
+                <ListView
+                    android:id="@+id/contact_list"
+                    android:layout_width="160dp"
+                    android:layout_height="fill_parent"
+                    android:fadingEdge="none"
+                    android:fadingEdgeLength="@dimen/right_panel_fading_edge"
+                    android:listSelector="@android:color/transparent"
+                    android:scrollbarStyle="outsideOverlay" />
+
+                <RelativeLayout
+                    android:id="@+id/message_parent"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent" >
+
+                    <ListView
+                        android:id="@+id/chat_list"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_above="@+id/chat_screen_input_box"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                        android:divider="@null"
+                        android:listSelector="@android:color/transparent"
+                        android:scrollbars="none" />
+
+                    <RelativeLayout
+                        android:id="@+id/chat_screen_input_box"
+                        android:layout_width="fill_parent"
+                        android:layout_height="48dp"
+                        android:layout_alignParentBottom="true"
+                        android:background="@android:color/white" >
+
+                        <ImageView
+                            android:id="@+id/send_btn"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:src="@android:drawable/ic_menu_send" />
+
+                        <EditText
+                            android:id="@+id/input"
+                        android:layout_width="fill_parent"
+                        android:layout_height="48dp"
+                            android:layout_alignParentBottom="true"
+                            android:layout_alignParentLeft="true"
+                            android:layout_toLeftOf="@+id/send_btn"
+                            android:background="@android:color/transparent"
+                            android:focusable="true"
+                            android:inputType="textCapSentences" />
+                    </RelativeLayout>
+                </RelativeLayout>
+            </LinearLayout>
+     <!-- Wraps split action bar manually managed -->
+
+
+            <!-- <com.csipsimple.ui.incall.InCallControls -->
+            <!-- android:id="@+id/inCallControls" -->
+            <!-- android:layout_width="match_parent" -->
+            <!-- android:layout_height="wrap_content" -->
+            <!-- android:visibility="gone" -->
+            <!-- android:background="@drawable/incall_bottom_bar_bg" /> -->
+        </LinearLayout>
     </RelativeLayout>
 
     <com.csipsimple.ui.incall.locker.ScreenLocker

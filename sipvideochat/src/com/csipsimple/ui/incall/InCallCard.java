@@ -49,8 +49,8 @@ import com.actionbarsherlock.internal.view.menu.MenuBuilder.Callback;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.csipsimple.R;
+import com.csipsimple.api.MediaState;
 import com.csipsimple.api.SipCallSession;
-import com.csipsimple.api.SipCallSession.MediaState;
 import com.csipsimple.api.SipConfigManager;
 import com.csipsimple.api.SipManager;
 import com.csipsimple.api.SipProfile;
@@ -101,6 +101,13 @@ public class InCallCard extends FrameLayout implements OnClickListener, Callback
     private Map<String, DynActivityPlugin> incallPlugins;
 
 
+//	IOnCallActionTrigger onTriggerListener;
+	
+	private MediaState lastMediaState;
+	private SipCallSession currentCall;
+//    private MenuBuilder btnMenuBuilder;
+	private boolean supportMultipleCalls = false;
+
     public InCallCard(Context context, AttributeSet attrs) {
         super(context, attrs);
         LayoutInflater inflater = LayoutInflater.from(context);
@@ -141,6 +148,61 @@ public class InCallCard extends FrameLayout implements OnClickListener, Callback
         updateMenuView();
     }
     
+	@Override
+	protected void onFinishInflate() {
+		super.onFinishInflate();
+		// Finalize object style
+		setEnabledMediaButtons(false);
+	}
+	
+	private boolean callOngoing = false;
+	public void setEnabledMediaButtons(boolean isInCall) {
+        callOngoing = isInCall;
+        setMediaState(lastMediaState);
+	}
+	
+	public void setMediaState(MediaState mediaState) {
+		lastMediaState = mediaState;
+
+        // Update menu
+		// BT
+		boolean enabled, checked;
+		if(lastMediaState == null) {
+		    enabled = callOngoing;
+		    checked = false;
+		}else {
+    		enabled = callOngoing && lastMediaState.canBluetoothSco;
+    		checked = lastMediaState.isBluetoothScoOn;
+		}
+        btnMenuBuilder.findItem(R.id.bluetoothButton).setVisible(enabled).setChecked(checked);
+        
+        // Mic
+        if(lastMediaState == null) {
+            enabled = callOngoing;
+            checked = false;
+        }else {
+            enabled = callOngoing && lastMediaState.canMicrophoneMute;
+            checked = lastMediaState.isMicrophoneMute;
+        }
+        btnMenuBuilder.findItem(R.id.muteButton).setVisible(enabled).setChecked(checked);
+        
+
+        // Speaker
+        Log.d(THIS_FILE, ">> Speaker " + lastMediaState);
+        if(lastMediaState == null) {
+            enabled = callOngoing;
+            checked = false;
+        }else {
+            Log.d(THIS_FILE, ">> Speaker " + lastMediaState.isSpeakerphoneOn);
+            enabled = callOngoing && lastMediaState.canSpeakerphoneOn;
+            checked = lastMediaState.isSpeakerphoneOn;
+        }
+        btnMenuBuilder.findItem(R.id.speakerButton).setVisible(enabled).setChecked(checked);
+        
+        // Add call
+//        btnMenuBuilder.findItem(R.id.addCallButton).setVisible(supportMultipleCalls && callOngoing);
+	}
+    
     private boolean added = false;
     private void updateMenuView() {
         int w = getWidth();
@@ -168,6 +230,7 @@ public class InCallCard extends FrameLayout implements OnClickListener, Callback
 
     public synchronized void setCallState(SipCallSession aCallInfo) {
         callInfo = aCallInfo;
+		currentCall = callInfo;
         if (callInfo == null) {
             updateElapsedTimer();
             cachedInvState = SipCallSession.InvState.INVALID;
@@ -234,6 +297,37 @@ public class InCallCard extends FrameLayout implements OnClickListener, Callback
         if (onTriggerListener != null) {
             onTriggerListener.onDisplayVideo(hasVideo && canVideo);
         }
+        
+
+		int state = currentCall.getCallState();
+		Log.d(THIS_FILE, "Mode is : "+state);
+		switch (state) {
+		case SipCallSession.InvState.INCOMING:
+		    setVisibility(GONE);
+			break;
+		case SipCallSession.InvState.CALLING:
+		case SipCallSession.InvState.CONNECTING:
+		    setVisibility(VISIBLE);
+			setEnabledMediaButtons(true);
+			break;
+		case SipCallSession.InvState.CONFIRMED:
+		    setVisibility(VISIBLE);
+			setEnabledMediaButtons(true);
+			break;
+		case SipCallSession.InvState.NULL:
+		case SipCallSession.InvState.DISCONNECTED:
+		    setVisibility(GONE);
+			break;
+		case SipCallSession.InvState.EARLY:
+		default:
+			if (currentCall.isIncoming()) {
+			    setVisibility(GONE);
+			} else {
+			    setVisibility(VISIBLE);
+				setEnabledMediaButtons(true);
+			}
+			break;
+		}
         // End of video stuff
         
         //requestLayout();
@@ -325,6 +419,11 @@ public class InCallCard extends FrameLayout implements OnClickListener, Callback
                 && (!callInfo.isBeforeConfirmed() || (!callInfo.isIncoming() && callInfo
                         .isBeforeConfirmed()));
         btnMenuBuilder.findItem(R.id.terminateCallButton).setVisible(active);
+        if (active) {
+        	findViewById(R.id.endButton).setVisibility(View.GONE);
+		} else {
+        	findViewById(R.id.endButton).setVisibility(View.VISIBLE);
+		}
         
         active = (!callInfo.isAfterEnded() && !callInfo.isBeforeConfirmed());
         btnMenuBuilder.findItem(R.id.xferCallButton).setVisible(active);
@@ -336,7 +435,7 @@ public class InCallCard extends FrameLayout implements OnClickListener, Callback
 
         // DTMF
         active = callInfo.isActive() ;
-        active &= ( (callInfo.getMediaStatus() == MediaState.ACTIVE) || (callInfo.getMediaStatus() == MediaState.REMOTE_HOLD));
+        active &= ( (callInfo.getMediaStatus() == SipCallSession.MediaState.ACTIVE) || (callInfo.getMediaStatus() == SipCallSession.MediaState.REMOTE_HOLD));
         btnMenuBuilder.findItem(R.id.dtmfCallButton).setVisible(active);
         
         // Info
@@ -636,6 +735,12 @@ public class InCallCard extends FrameLayout implements OnClickListener, Callback
     @Override
     public boolean onMenuItemSelected(MenuBuilder menu, MenuItem item) {
         int itemId = item.getItemId();
+        int id = item.getItemId();
+        
+        if (item.isCheckable()) {
+            item.setChecked(!item.isChecked());
+        }
+        
         if(itemId == R.id.takeCallButton) {
             dispatchTriggerEvent(IOnCallActionTrigger.TAKE_CALL);
             return true;
@@ -671,6 +776,33 @@ public class InCallCard extends FrameLayout implements OnClickListener, Callback
             return true;
         }else if(itemId == R.id.zrtpAcceptance) {
             dispatchTriggerEvent(callInfo.isZrtpSASVerified()? IOnCallActionTrigger.ZRTP_REVOKE : IOnCallActionTrigger.ZRTP_TRUST);
+            return true;
+        }else if (id == R.id.bluetoothButton) {
+            if (item.isChecked()) {
+                dispatchTriggerEvent(IOnCallActionTrigger.BLUETOOTH_ON);
+            } else {
+                dispatchTriggerEvent(IOnCallActionTrigger.BLUETOOTH_OFF);
+            }
+            return true;
+        } else if (id == R.id.speakerButton) {
+            if (item.isChecked()) {
+                dispatchTriggerEvent(IOnCallActionTrigger.SPEAKER_ON);
+            } else {
+                dispatchTriggerEvent(IOnCallActionTrigger.SPEAKER_OFF);
+            }
+            return true;
+        } else if (id == R.id.muteButton) {
+            if (item.isChecked()) {
+                dispatchTriggerEvent(IOnCallActionTrigger.MUTE_ON);
+            } else {
+                dispatchTriggerEvent(IOnCallActionTrigger.MUTE_OFF);
+            }
+            return true;
+        } else if (id == R.id.addCallButton) {
+            dispatchTriggerEvent(IOnCallActionTrigger.ADD_CALL);
+            return true;
+        } else if (id == R.id.mediaSettingsButton) {
+            dispatchTriggerEvent(IOnCallActionTrigger.MEDIA_SETTINGS);
             return true;
         }
         return false;

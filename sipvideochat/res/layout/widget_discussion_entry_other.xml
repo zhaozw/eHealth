@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerVertical="true" >
+
+    <RelativeLayout
+        android:layout_gravity="center"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/chat_bubble_left" >
+
+        <TextView
+            android:id="@+id/message"
+        android:textColor="@color/dark_gray"
+        android:gravity="left|center"
+        android:layout_centerVertical="true"
+            android:text="Hello"
+            android:padding="2.0dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <RelativeLayout
+            android:id="@+id/message_footer"
+            android:paddingTop="2.0dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/message" >
+
+            <TextView
+                android:id="@+id/message_name"
+            android:paddingTop="2.0dp"
+                android:textSize="8sp"
+                android:textColor="@color/dark_gray"
+                android:text="me"
+                android:gravity="left"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginRight="10.0dip"
+                android:layout_toLeftOf="@+id/message_date"
+                android:ellipsize="end"
+                android:paddingLeft="5.0dip"
+                android:singleLine="true" />
+
+            <TextView
+                android:id="@+id/message_date"
+            android:paddingTop="2.0dp"
+                android:textSize="8sp"
+                android:textColor="@color/dark_gray"
+                android:text="Just now"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+</RelativeLayout>
