@@ -117,4 +117,18 @@
 
     <style name="ButtonBar.AlertDialog" parent="@android:style/ButtonBar" />
 
+    <style name="TopicWidgetDrawerCenter">
+        <item name="android:orientation">vertical</item>
+        <item name="android:layout_width">0.0dip</item>
+        <item name="android:layout_height">0.0dip</item>
+        <item name="android:layout_marginLeft">-3.0dip</item>
+        <item name="android:layout_marginRight">-3.0dip</item>
+        <item name="android:layout_centerInParent">true</item>
+    </style>
+    <style name="icon_label_button.top_left" parent="@style/icon_label_button">
+        <item name="android:layout_marginBottom">7.0dip</item>
+    </style><style name="icon_label_button">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">55.0dip</item>
+    </style>
 </resources>
